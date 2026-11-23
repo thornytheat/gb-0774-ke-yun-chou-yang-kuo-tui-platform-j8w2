@@ -25,5 +25,6 @@
 | TRAP-14 | 同版问项冲突 | 后写覆盖 | 全部冲突票隔离 | `app/modules/returns/visits.py` | `tests/test_returns.py::test_conflict` |
 | TRAP-19 | 新旧重访与重复同时出现 | 顺序覆盖 | 先版本再副本 | `app/modules/returns/visits.py` | `tests/test_returns.py::test_latest_then_duplicates` |
 | TRAP-24 | 城北三类各 100/3 人 | 四舍五入只剩 99 人 | 最大余数，直达先补 | `app/modules/allocation/remainders.py` | `tests/test_allocation.py::test_tie_is_stable` |
+| TRAP-25 | 旧问卷只写换乘、新问卷分公交/轨道 | 猜成某一种误配运力，或整份丢弃少算换乘 | 细分码归并为换乘口径，旧 transfer 记类型未补；对账页三栏留档且恒等于换乘总数 | `app/modules/frame/join.py` `app/modules/balance/service.py` | `tests/test_transfer_types.py` |
 
 脏样例出票 290 = 250 扩推 + 40 不可推断。原始答卷 18 = 6 回收隔离 + 4 问项隔离 + 2 未回应 + 6 有效。枢纽 150 人按基础权 4、3、2 校准为 200/3、50、100/3。城北按三份等权回收分得 34、33、33。旧分层及隔离证据都可由签发包还原。

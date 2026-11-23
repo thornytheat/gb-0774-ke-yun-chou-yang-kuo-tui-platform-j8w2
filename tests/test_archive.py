@@ -10,7 +10,7 @@ from app.modules.ledger.storage import Archive
 
 def test_create_manifest(client):
     answer=client.post('/api/runs',json={'sample':'dirty'})
-    assert answer.status_code==201 and answer.json['manifest']['version']=='survey-2026.1'
+    assert answer.status_code==201 and answer.json['manifest']['version']=='survey-2026.2'
     assert set(answer.json['manifest']['files'])=={'returns','frame'}
 
 

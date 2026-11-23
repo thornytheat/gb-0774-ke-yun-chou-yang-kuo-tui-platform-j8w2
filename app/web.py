@@ -3,7 +3,7 @@ from fractions import Fraction
 from flask import Blueprint, render_template, request
 
 from app.api import storage
-from app.config import CHOICES, SPEC
+from app.config import CHOICES, SPEC, TRANSFER_LABELS
 from app.errors import SurveyProblem
 from app.modules.release.service import release
 from app.pipeline import run
@@ -40,4 +40,5 @@ def desk(tab='balance'):
     scale = max([5, *(5 * (int(value / 5) + 1) for value in shifts)])
     return render_template('base.html',tab=tab,tabs=TABS,sample=sample,key=key,manifest=manifest,data=result,layer=layer,
                            spec=SPEC,choices=CHOICES,reasons=REASONS,decimal=decimal_text,maximum=scale,
+                           transfer_labels=TRANSFER_LABELS,
                            fraction=Fraction, proof=proof, recent=storage().recent() if tab=='archive' else [])

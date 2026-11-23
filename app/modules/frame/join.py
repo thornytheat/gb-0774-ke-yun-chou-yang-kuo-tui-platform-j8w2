@@ -1,7 +1,7 @@
 import re
 from fractions import Fraction
 
-from app.config import CHOICES
+from app.config import CHOICES, TRANSFER_TYPES, parent_choice
 from app.modules.returns.schema import blank
 
 
@@ -33,10 +33,15 @@ def classify(record, trips):
         return {**row,'code':'BAD_RESPONSE'}
     if blank(choice):
         return {**row,'code':'ANSWER_MISSING'}
-    if choice not in CHOICES:
+    parent = parent_choice(choice)
+    if parent is None:
         return {**row,'code':'BAD_RESPONSE'}
     try:
         chance = probability(raw['probability'])
     except (ValueError, ZeroDivisionError):
         return {**row,'code':'BAD_PROBABILITY'}
-    return {**row,'probability':chance,'choice':choice}
+    # choice 始终为三大问项（调度口径）；细分换乘类型另存于 transfer_type 留档。
+    row.update({'probability':chance,'choice':parent})
+    if parent == 'transfer':
+        row['transfer_type'] = choice if choice in TRANSFER_TYPES else 'transfer'
+    return row
